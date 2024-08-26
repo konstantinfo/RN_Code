@@ -1,6 +1,6 @@
-import React, { memo, useContext, useMemo } from 'react';
-import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
+import React, { memo, useContext, useMemo } from "react";
+import styled from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 import {
   Wrapper,
   RowWrapper,
@@ -10,37 +10,48 @@ import {
   ProductTitle,
   TextLarge,
   TextSmall,
-} from '@components/Common';
-import u from '@utils/unit';
-import Theme, { SCREEN_WIDTH } from '@constants/Theme';
-import ImagePath from '@constants/ImagePath';
-import AppContext from '@contexts/AppContext';
+} from "@components/Common";
+import u from "@utils/unit";
+import Theme, { SCREEN_WIDTH } from "@constants/Theme";
+import ImagePath from "@constants/ImagePath";
+import AppContext from "@contexts/AppContext";
 
+// ProductItem component memoized for performance optimization
 const ProductItem = memo(({ data, relatedProducts, cartOnPress }) => {
-  const { newArrival } = useContext(AppContext);
-  const navigation = useNavigation();
-  const { id, name, price, images, image, categories, product_stock_status } = data;
+  const { newArrival } = useContext(AppContext); // Get context value for newArrival
+  const navigation = useNavigation(); // Get navigation object for navigation actions
+  const { id, name, price, images, image, categories, product_stock_status } =
+    data;
 
-  // Memoized categoriesString to avoid unnecessary recalculations
+  // Memoized categoriesString to avoid unnecessary recalculations on re-renders
   const categoriesString = useMemo(
-    () => categories?.map((category) => category?.name).join(', '),
+    () => categories?.map((category) => category?.name).join(", "),
     [categories]
   );
 
-  const isOutOfStock = product_stock_status === 'outofstock';
+  // Determine if the product is out of stock
+  const isOutOfStock = product_stock_status === "outofstock";
 
   return (
+    // Product container that navigates to product detail on press
     <ProductContainer
-      width={relatedProducts ? SCREEN_WIDTH / 2 : '49%'}
-      onPress={() => navigation.navigate('ProductDetail', { productId: id })}
+      width={relatedProducts ? SCREEN_WIDTH / 2 : "49%"}
+      onPress={() => navigation.navigate("ProductDetail", { productId: id })}
     >
+      {/* Display product image */}
       <ProductImage source={{ uri: images ? images[0]?.src : image }} />
+
+      {/* Show "Sold Out" overlay if the product is out of stock */}
       {isOutOfStock && (
         <SoldOutWrapper>
           <OutofStockText>Sold Out</OutofStockText>
         </SoldOutWrapper>
       )}
+
+      {/* Show "New Arrival" icon if applicable */}
       {newArrival && <NewIcon source={ImagePath.newIcon} />}
+
+      {/* Product details including name, categories, and price */}
       <Wrapper backgroundColor={Theme.colors.ivory} width="95%">
         <Wrapper paddingVertical={Theme.space.xsmall}>
           <ProductTitle numberOfLines={1}>{name}</ProductTitle>
@@ -54,6 +65,8 @@ const ProductItem = memo(({ data, relatedProducts, cartOnPress }) => {
           </RowWrapper>
         </Wrapper>
       </Wrapper>
+
+      {/* Show "Add to Cart" button if the product is in stock */}
       {!isOutOfStock && (
         <TouchableButton onPress={() => cartOnPress(id)}>
           <CartIcon source={ImagePath.cartIcon} />
@@ -63,7 +76,9 @@ const ProductItem = memo(({ data, relatedProducts, cartOnPress }) => {
   );
 });
 
-// Styled components
+// Styled components for various UI elements
+
+// Row container for layout
 const RowContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -71,11 +86,13 @@ const RowContainer = styled.View`
   align-items: flex-end;
 `;
 
+// "New Arrival" icon positioning
 const NewIcon = styled.Image`
   position: absolute;
   top: ${u(8)};
 `;
 
+// "Add to Cart" icon positioning
 const CartIcon = styled.Image`
   position: absolute;
   right: ${u(15)};
@@ -83,7 +100,8 @@ const CartIcon = styled.Image`
   border-width: 1;
 `;
 
-export const SoldOutWrapper = styled.View`
+// "Sold Out" overlay styling
+const SoldOutWrapper = styled.View`
   position: absolute;
   justify-content: center;
   align-self: center;
@@ -92,7 +110,8 @@ export const SoldOutWrapper = styled.View`
   width: 88%;
 `;
 
-export const OutofStockText = styled.Text`
+// "Sold Out" text styling
+const OutofStockText = styled.Text`
   ${Theme.textStyles.body14SemiBold}
   background-color: ${Theme.colors.darkGrey};
   color: ${Theme.colors.white};

@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import { Alert, Keyboard } from 'react-native';
-import * as Page from '@components/Page';
-import * as Auth from '@components/AuthComponents';
-import * as Button from '@components/Button';
-import ImagePath from '@constants/ImagePath';
-import AlertModel from '@components/AlertModel';
-import InputComponent from '@components/InputComponent';
-import { TouchableButton } from '@components/Common';
-import DatePickerComponent from '@components/DatePickerComponent';
-import Theme from '@constants/Theme';
-import strings from '@constants/Strings';
-import { createUser } from '@services/Apis';
-import AuthenticatedUser from '@services/AuthenticatedUser';
-import { validateInputs } from '@utils/validations';
-import { sanitizedErrorMessage } from '@utils/CommonFunctions';
-import Logger from '@services/Logger';
+import React, { useState } from "react";
+import { Alert, Keyboard } from "react-native";
+import * as Page from "@components/Page";
+import * as Auth from "@components/AuthComponents";
+import * as Button from "@components/Button";
+import ImagePath from "@constants/ImagePath";
+import AlertModel from "@components/AlertModel";
+import InputComponent from "@components/InputComponent";
+import { TouchableButton } from "@components/Common";
+import DatePickerComponent from "@components/DatePickerComponent";
+import Theme from "@constants/Theme";
+import strings from "@constants/Strings";
+import { createUser } from "@services/Apis";
+import AuthenticatedUser from "@services/AuthenticatedUser";
+import { validateInputs } from "@utils/validations";
+import { sanitizedErrorMessage } from "@utils/CommonFunctions";
+import Logger from "@services/Logger";
 
 const SignUpScreen = ({ navigation }) => {
   // State for managing form data
   const [state, setState] = useState({
-    email: '',
-    dob: '',
+    email: "",
+    dob: "",
   });
 
   // State for managing loading and alert visibility
@@ -38,7 +38,7 @@ const SignUpScreen = ({ navigation }) => {
     Keyboard.dismiss();
 
     // Validate the input fields
-    const { isValid, errorMsg } = validateInputs({ ...state, type: 'SIGNUP' });
+    const { isValid, errorMsg } = validateInputs({ ...state, type: "SIGNUP" });
 
     if (isValid) {
       // Show loading indicator
@@ -85,7 +85,9 @@ const SignUpScreen = ({ navigation }) => {
         <Auth.SectionTop>
           <Auth.LogoImage source={ImagePath.introLogo} />
           <Auth.Heading>Register</Auth.Heading>
-          <Auth.BodyText light>Fill the details to create your account</Auth.BodyText>
+          <Auth.BodyText light>
+            Fill the details to create your account
+          </Auth.BodyText>
         </Auth.SectionTop>
 
         {/* Bottom section with input fields and submit button */}
@@ -125,12 +127,13 @@ const SignUpScreen = ({ navigation }) => {
               paddingBottom={Theme.space.small}
               paddingHorizontal={Theme.space.small}
             >
-              Your personal data will be used to support your experience throughout this website, to
-              manage access to your account, and for other purposes described in our{' '}
+              Your personal data will be used to support your experience
+              throughout this website, to manage access to your account, and for
+              other purposes described in our{" "}
               <Auth.BodyText
                 medium
                 onPress={() =>
-                  navigation.navigate('Webview', {
+                  navigation.navigate("Webview", {
                     uri: strings.settings[3].url,
                     title: strings.settings[3].text,
                   })

@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { Alert, Keyboard } from 'react-native';
-import * as Page from '@components/Page';
-import * as Auth from '@components/AuthComponents';
-import * as Button from '@components/Button';
-import InputComponent from '@components/InputComponent';
-import { TouchableButton } from '@components/Common';
-import ImagePath from '@constants/ImagePath';
-import Theme from '@constants/Theme';
-import strings from '@constants/Strings';
-import { validateInputs } from '@utils/validations';
-import NavigationService from '@utils/NavigationService';
-import { sanitizedErrorMessage } from '@utils/CommonFunctions';
-import { signInUser } from '@services/Apis';
-import AuthenticatedUser from '@services/AuthenticatedUser';
+import React, { useState } from "react";
+import { Alert, Keyboard } from "react-native";
+import * as Page from "@components/Page";
+import * as Auth from "@components/AuthComponents";
+import * as Button from "@components/Button";
+import InputComponent from "@components/InputComponent";
+import { TouchableButton } from "@components/Common";
+import ImagePath from "@constants/ImagePath";
+import Theme from "@constants/Theme";
+import strings from "@constants/Strings";
+import { validateInputs } from "@utils/validations";
+import NavigationService from "@utils/NavigationService";
+import { sanitizedErrorMessage } from "@utils/CommonFunctions";
+import { signInUser } from "@services/Apis";
+import AuthenticatedUser from "@services/AuthenticatedUser";
 
 const SignInScreen = ({ navigation }) => {
   // State for loading indicator and form inputs
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const handleOnPress = async () => {
@@ -27,7 +27,7 @@ const SignInScreen = ({ navigation }) => {
     Keyboard.dismiss();
 
     // Validate the input fields
-    const { isValid, errorMsg } = validateInputs({ ...state, type: 'SIGNIN' });
+    const { isValid, errorMsg } = validateInputs({ ...state, type: "SIGNIN" });
 
     if (isValid) {
       setLoading(true); // Show loading indicator
@@ -51,7 +51,7 @@ const SignInScreen = ({ navigation }) => {
           AuthenticatedUser.storeUserProfile();
           AuthenticatedUser.storeRewardsPools();
 
-          NavigationService.setRoot('App');
+          NavigationService.setRoot("App");
         } else {
           // Show error message
           Alert.alert(strings.appTitle, sanitizedErrorMessage(message));
@@ -109,8 +109,14 @@ const SignInScreen = ({ navigation }) => {
 
           <Page.Block>
             {/* Forgot Password Link */}
-            <TouchableButton onPress={() => navigation.navigate('ForgotPassword')}>
-              <Auth.BodyText bold textAlign="center" paddingBottom={Theme.space.small}>
+            <TouchableButton
+              onPress={() => navigation.navigate("ForgotPassword")}
+            >
+              <Auth.BodyText
+                bold
+                textAlign="center"
+                paddingBottom={Theme.space.small}
+              >
                 Forgot Password?
               </Auth.BodyText>
             </TouchableButton>
@@ -124,7 +130,7 @@ const SignInScreen = ({ navigation }) => {
           {/* Footer Section with Registration Link */}
           <Auth.Footer>
             <Auth.BodyText light> Don't have an account? </Auth.BodyText>
-            <TouchableButton onPress={() => navigation.navigate('Signup')}>
+            <TouchableButton onPress={() => navigation.navigate("Signup")}>
               <Auth.BodyText bold>Register Now</Auth.BodyText>
             </TouchableButton>
           </Auth.Footer>
